@@ -1,0 +1,87 @@
+{
+	"version": "1.0",
+	"type": "minecraft:chest",
+	"pools": [
+		{
+			"name": "uncommon_food",
+			"rolls": 1,
+			"entries": [
+				{
+					"entryName": "sugar",
+					"type": "minecraft:item",
+					"name": "minecraft:sugar",
+					"weight": 20,
+					"functions": [
+						{
+							"function": "minecraft:set_count",
+							"count": {
+								"min": 1,
+								"max": 3
+							}
+						}
+					]
+				},
+				{
+					"entryName": "carrot",
+					"type": "minecraft:item",
+					"name": "minecraft:carrot",
+					"weight": 35,
+					"functions": [
+						{
+							"function": "minecraft:set_count",
+							"count": {
+								"min": 1,
+								"max": 5
+							}
+						}
+					]
+				},
+				{
+					"entryName": "cocoa_beans",
+					"type": "minecraft:item",
+					"name": "minecraft:lapis_lazuli",
+					"weight": 20,
+					"functions": [
+						{
+							"function": "minecraft:set_count",
+							"count": {
+								"min": 1,
+								"max": 2
+							}
+						}
+					]
+				},
+				{
+					"entryName": "cookie",
+					"type": "minecraft:item",
+					"name": "minecraft:cookie",
+					"weight": 15,
+					"functions": [
+						{
+							"function": "minecraft:set_count",
+							"count": {
+								"min": 1,
+								"max": 2
+							}
+						}
+					]
+				},
+				{
+					"entryName": "honey_bottle",
+					"type": "minecraft:item",
+					"name": "minecraft:honey_bottle",
+					"weight": 15,
+					"functions": [
+						{
+							"function": "minecraft:set_count",
+							"count": {
+								"min": 1,
+								"max": 2
+							}
+						}
+					]
+				}				
+			]
+		}
+	]
+}

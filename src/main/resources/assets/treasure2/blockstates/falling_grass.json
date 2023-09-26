@@ -1,0 +1,38 @@
+{
+	"variants": {
+		"activated=false": [
+			{
+				"model": "treasure2:block/falling_grass"
+			},
+			{
+				"model": "treasure2:block/falling_grass",
+				"y": 90
+			},
+			{
+				"model": "treasure2:block/falling_grass",
+				"y": 180
+			},
+			{
+				"model": "treasure2:block/falling_grass",
+				"y": 270
+			}
+		],
+		"activated=true": [
+			{
+				"model": "treasure2:block/falling_grass"
+			},
+			{
+				"model": "treasure2:block/falling_grass",
+				"y": 90
+			},
+			{
+				"model": "treasure2:block/falling_grass",
+				"y": 180
+			},
+			{
+				"model": "treasure2:block/falling_grass",
+				"y": 270
+			}
+		]
+	}
+}

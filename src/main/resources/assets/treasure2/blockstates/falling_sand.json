@@ -1,0 +1,14 @@
+{
+	"variants": {
+		"activated=false": [
+			{
+				"model": "treasure2:block/falling_sand"
+			}
+		],
+		"activated=true": [
+			{
+				"model": "treasure2:block/falling_sand"
+			}
+		]
+	}
+}

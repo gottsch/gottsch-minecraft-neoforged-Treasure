@@ -1,0 +1,32 @@
+{
+	"type": "minecraft:block",
+	"pools": [{
+			"rolls": 1,
+			"entries": [{
+				"entryName": "stone",
+				"type": "minecraft:item",
+				"name": "minecraft:stone"
+			}],
+			"conditions": [
+				{
+					"condition": "minecraft:random_chance",
+					"chance": 0.75
+				}
+			]
+		},
+		{
+			"rolls": 1,
+			"entries": [{
+				"entryName": "gravestone",
+				"type": "minecraft:item",
+				"name": "treasure2:gravestone1_stone"
+			}],
+			"conditions": [
+				{
+					"condition": "minecraft:random_chance",
+					"chance": 0.25
+				}
+			]
+		}
+	]
+}

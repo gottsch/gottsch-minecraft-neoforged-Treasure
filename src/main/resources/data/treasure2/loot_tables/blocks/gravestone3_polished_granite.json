@@ -1,0 +1,32 @@
+{
+	"type": "minecraft:block",
+	"pools": [{
+			"rolls": 1,
+			"entries": [{
+				"entryName": "polished_granite",
+				"type": "minecraft:item",
+				"name": "minecraft:polished_granite"
+			}],
+			"conditions": [
+				{
+					"condition": "minecraft:random_chance",
+					"chance": 0.75
+				}
+			]
+		},
+		{
+			"rolls": 1,
+			"entries": [{
+				"entryName": "gravestone",
+				"type": "minecraft:item",
+				"name": "treasure2:gravestone3_polished_granite"
+			}],
+			"conditions": [
+				{
+					"condition": "minecraft:random_chance",
+					"chance": 0.25
+				}
+			]
+		}
+	]
+}

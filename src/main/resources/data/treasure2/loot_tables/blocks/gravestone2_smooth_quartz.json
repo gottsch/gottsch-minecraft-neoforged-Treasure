@@ -1,0 +1,32 @@
+{
+	"type": "minecraft:block",
+	"pools": [{
+			"rolls": 1,
+			"entries": [{
+				"entryName": "smooth_quartz",
+				"type": "minecraft:item",
+				"name": "minecraft:smooth_quartz"
+			}],
+			"conditions": [
+				{
+					"condition": "minecraft:random_chance",
+					"chance": 0.75
+				}
+			]
+		},
+		{
+			"rolls": 1,
+			"entries": [{
+				"entryName": "gravestone",
+				"type": "minecraft:item",
+				"name": "treasure2:gravestone2_smooth_quartz"
+			}],
+			"conditions": [
+				{
+					"condition": "minecraft:random_chance",
+					"chance": 0.25
+				}
+			]
+		}
+	]
+}

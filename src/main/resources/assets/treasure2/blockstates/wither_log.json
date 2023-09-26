@@ -1,0 +1,16 @@
+{
+	"variants": {
+		"axis=x": [
+				{"model": "treasure2:block/wither_log",	"x": 90, "y": 90},
+				{"model": "treasure2:block/wither_log_mossy",	"x": 90, "y": 90}
+			],
+		"axis=y": [
+				{"model": "treasure2:block/wither_log"},
+				{"model": "treasure2:block/wither_log_mossy"}
+			],
+		"axis=z": [
+				{"model": "treasure2:block/wither_log",	"x": 90},
+				{"model": "treasure2:block/wither_log_mossy",	"x": 90}
+			]
+	}
+}

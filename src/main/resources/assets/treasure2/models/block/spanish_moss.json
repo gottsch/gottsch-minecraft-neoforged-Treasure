@@ -1,0 +1,7 @@
+{
+    "parent": "block/cross",
+    "textures": {
+        "cross": "treasure2:block/spanish_moss"
+    },
+    "render_type": "cutout"
+}
