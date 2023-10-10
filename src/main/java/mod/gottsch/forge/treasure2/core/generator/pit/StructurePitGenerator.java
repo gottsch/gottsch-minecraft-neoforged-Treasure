@@ -22,7 +22,9 @@ package mod.gottsch.forge.treasure2.core.generator.pit;
 import java.util.List;
 import java.util.Optional;
 
+import mod.gottsch.forge.treasure2.core.generator.template.ITemplateGenerator;
 import mod.gottsch.neo.gottschcore.size.DoubleRange;
+import mod.gottsch.neo.gottschcore.size.Quantity;
 import mod.gottsch.neo.gottschcore.spatial.Coords;
 import mod.gottsch.neo.gottschcore.spatial.ICoords;
 import mod.gottsch.neo.gottschcore.world.IWorldGenContext;
@@ -92,7 +94,6 @@ public class StructurePitGenerator extends AbstractPitGenerator implements IStru
 	/**
 	 * 
 	 * @param context
-	 * @param random
 	 * @param surfaceCoords
 	 * @param spawnCoords
 	 * @return
@@ -131,12 +132,7 @@ public class StructurePitGenerator extends AbstractPitGenerator implements IStru
 		
 		if (verticalDist > getMinSurfaceToSpawnDistance()) {
 			Treasure.LOGGER.debug("generating structure room at -> {}", spawnCoords.toShortString());
-			
-			// get the biome
-//			Biome biome = context.level().getBiome(spawnCoords.toPos());
-//			ResourceLocation biomeID = biome.getRegistryName();
-//			List<TemplateHolder> templateHolders = TreasureTemplateRegistry.getManager().getTemplatesByArchetypeTypeBiomeTable().get(key, biomeID);
-			
+
 			// TODO should the TemplateHolder be returned here instead?
 			Optional<GottschTemplate> template = getRandomTemplate(context.random());
 			if (!template.isPresent()) {
@@ -169,9 +165,9 @@ public class StructurePitGenerator extends AbstractPitGenerator implements IStru
 					return Optional.empty();
 				}
 			}
-	
+
+			// TODO test the other gens before tinkering with this
 			// find the entrance block
-//			ICoords entranceCoords = template.findCoords(random, GenUtil.getMarkerBlock(StructureMarkers.ENTRANCE));
 			ICoords entranceCoords = TreasureTemplateRegistry.getOffsetFrom(context.random(), template.get(), StructureMarkers.ENTRANCE);
 			if (entranceCoords == null) {
 				Treasure.LOGGER.debug("Unable to locate entrance position.");
@@ -197,7 +193,9 @@ public class StructurePitGenerator extends AbstractPitGenerator implements IStru
 			 *  adjust spawn coords to line up room entrance and the pit
 			 */
 			BlockPos transformedSize = template.get().getSize(rotation);
+//			ICoords roomCoords = ITemplateGenerator.alignEntranceToCoords(spawnCoords, newEntrance, transformedSize, placement);
 			ICoords roomCoords = alignToPit(spawnCoords, newEntrance, transformedSize, placement);
+
 			Treasure.LOGGER.debug("aligned room coords -> {}", roomCoords.toShortString());
 			
 			// generate the structure
@@ -207,7 +205,6 @@ public class StructurePitGenerator extends AbstractPitGenerator implements IStru
 			}
 			Treasure.LOGGER.debug("template result -> {}", genResult);
 			result.getData().setSpawnCoords(genResult.getData().getSpawnCoords());
-			
 			// interrogate info for spawners and any other special block processing (except chests that are handler by caller
 			List<BlockInfoContext> bossChestContexts =
 					(List<BlockInfoContext>) genResult.getData().getMap().get(GeneratorUtil.getMarkerBlock(StructureMarkers.BOSS_CHEST));
@@ -217,7 +214,7 @@ public class StructurePitGenerator extends AbstractPitGenerator implements IStru
 					(List<BlockInfoContext>) genResult.getData().getMap().get(GeneratorUtil.getMarkerBlock(StructureMarkers.SPAWNER));
 			List<BlockInfoContext> proximityContexts =
 					(List<BlockInfoContext>) genResult.getData().getMap().get(GeneratorUtil.getMarkerBlock(StructureMarkers.PROXIMITY_SPAWNER));
-			
+
 			/*
 			 *  NOTE currently only 1 chest is allowed per structure - the rest are ignored.
 			 */
@@ -255,40 +252,34 @@ public class StructurePitGenerator extends AbstractPitGenerator implements IStru
 			 *  		map.put(ResourceLocation("treasure2:underground/basic1", SPAWNER, new SpawnerInfo("minecraft:Spider"));
 			 *  		map.put(ResourceLocation("treasure2:underground/basic1", PROXIMITY, new SpawnerInfo("minecraft:Spider", new Quantity(1,2), 5D));
 			 */
-			
+
+			/**
+			 * NOTE Vanilla Spawner blocks are part of the original structure NBTs.
+			 * Need to replace any vanilla spawners with DeferredRandomVanillaSpawnerBlocks at this point.
+			 * This is a hacky work-around to the fact that the spawners are causing the game to hang during
+			 * generation. Remove/update when the reason is discovered and fixed.
+ 			 */
+
 			// TODO move to own method
 			// populate vanilla spawners
-			for (BlockInfoContext c : spawnerContexts) {
-				context.level().setBlock(c.getCoords().toPos(), Blocks.SPAWNER.defaultBlockState(), 3);
-				SpawnerBlockEntity blockEntity = (SpawnerBlockEntity) context.level().getBlockEntity(c.getCoords().toPos());
-				EntityType<?> r = DungeonHooks.getRandomDungeonMob(context.random());
-				blockEntity.getSpawner().setEntityId(r, context.level().getLevel(), context.random(), c.getCoords().toPos());
-			}
-			
-			// TODO move to own method
+			GeneratorUtil.buildVanillaSpawners(context, spawnerContexts);
+
 			// populate proximity spawners
-			for (BlockInfoContext c : proximityContexts) {
-		    	context.level().setBlock(c.getCoords().toPos(), TreasureBlocks.PROXIMITY_SPAWNER.get().defaultBlockState(), 3);
-		    	TreasureProximitySpawnerBlockEntity blockEntity = (TreasureProximitySpawnerBlockEntity) context.level().getBlockEntity(c.getCoords().toPos());
-		    	EntityType<?> r = DungeonHooks.getRandomDungeonMob(context.random());
-		    	blockEntity.setMobName(EntityType.getKey(r));
-		    	blockEntity.setMobNum(new DoubleRange(1, 2));
-		    	blockEntity.setProximity(5D);
-			}
+			GeneratorUtil.buildOneTimeSpawners(context, proximityContexts, new DoubleRange(1, 2), 5D);
 
 			// shaft enterance
 			generateEntrance(context, surfaceCoords, spawnCoords.add(0, size.getY()+1, 0));
-			
+
 			// build the pit
 			generatePit(context, surfaceCoords, spawnCoords.add(0, size.getY(), 0));
 		}			
 		// shaft is only 2-6 blocks long - can only support small covering
 		else if (verticalDist >= 2) {
-			// simple short pit
+				// simple short pit
 			return new SimpleShortPitGenerator().generate(context, surfaceCoords, spawnCoords);
 		}		
 		Treasure.LOGGER.debug("Generated Structure Pit at " + spawnCoords.toShortString());
-		return Optional.ofNullable(result);
+		return Optional.of(result);
 	}
 
 	/**
@@ -315,34 +306,35 @@ public class StructurePitGenerator extends AbstractPitGenerator implements IStru
 	}
 
 	/**
-	 * Aligns or "centers" the structure to the pit coords based on the structure's entrance coords.
+	 * Aligns or "centers" the structure to the pit coords based on the structure's offset from a point
 	 * @param spawnCoords
-	 * @param newEntrance
+	 * @param offsetCoords
 	 * @param transformedSize
 	 * @param placement
 	 * @return
 	 */
-	private ICoords alignToPit(ICoords spawnCoords, ICoords newEntrance, BlockPos transformedSize, PlacementSettings placement) {
+	// TODO same as ITemplateGenerate.alignEntranceToCoords
+	@Deprecated
+	private ICoords alignToPit(ICoords spawnCoords, ICoords offsetCoords, BlockPos transformedSize, PlacementSettings placement) {
 		ICoords startCoords = null;
-		// NOTE work with rotations only for now
-		
-		// first offset spawnCoords by newEntrance
-		startCoords = spawnCoords.add(-newEntrance.getX(), 0, -newEntrance.getZ());
+
+		// NOTE this method is using a offset from the spawnpoint. so the rotation doesn't matter,
+		// it will always be a subtraction from the spawn coords. ie .add(-c) or .subtract(c)
+		startCoords = spawnCoords.add(-offsetCoords.getX(), 0, -offsetCoords.getZ());
 		
 		// make adjustments for the rotation. REMEMBER that pits are 2x2
-		switch (placement.getRotation()) {
-		case CLOCKWISE_90:
-			startCoords = startCoords.add(1, 0, 0);
-			break;
-		case CLOCKWISE_180:
-			startCoords = startCoords.add(1, 0, 1);
-			break;
-		case COUNTERCLOCKWISE_90:
-			startCoords = startCoords.add(0, 0, 1);
-			break;
-		default:
-			break;
-		}
+//		return switch (placement.getRotation()) {
+//		case CLOCKWISE_90:
+//			startCoords = startCoords.add(1, 0, 0);
+//			break;
+//		case CLOCKWISE_180 ->
+//			startCoords = startCoords.add(1, 0, 1);
+//
+//		case COUNTERCLOCKWISE_90 ->
+//			startCoords = startCoords.add(0, 0, 1);
+//
+//		default -> startCoords;
+//		}
 		return startCoords;
 	}
 	

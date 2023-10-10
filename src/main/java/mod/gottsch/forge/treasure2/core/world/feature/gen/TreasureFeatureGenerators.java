@@ -59,7 +59,7 @@ public class TreasureFeatureGenerators {
 		selector.add(65, TreasureFeatureGenerators.PIT_FEATURE_GENERATOR);
 		// TEMP change 25 to 125
 		// TEMP remove surface structure generator until bugs are worked out.
-//		selector.add(25, SURFACE_STRUCTURE_FEATURE_GENERATOR);
+		selector.add(25, SURFACE_STRUCTURE_FEATURE_GENERATOR);
 	}
 	
 	/**

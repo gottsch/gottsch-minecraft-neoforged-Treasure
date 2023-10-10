@@ -96,9 +96,7 @@ public class TemplateGenerator implements ITemplateGenerator<GeneratorResult<Tem
 		// TODO how to get the offset at this point? don't have the resourcelocation, the holder, or value
 		if (offsetCoords == null || offsetCoords == Coords.EMPTY) {
 			offsetCoords = template.findCoords(context.random(), GeneratorUtil.getMarkerBlock(StructureMarkers.OFFSET));
-//			if (offsetCoords != null) {
-//				offset = -offsetCoords.getY();
-//			}
+
 			// if offset is still null/empty
 			if (offsetCoords == null || offsetCoords == Coords.EMPTY) {
 				offsetCoords = new Coords(0, 0, 0);

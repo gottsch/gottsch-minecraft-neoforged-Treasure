@@ -77,7 +77,7 @@ public class FeatureCaches {
 		// wells
 		Tag wellTag = saveFeatureCache(WELL_CACHE);
 		tag.put(WELL_CACHE_NAME, wellTag);
-		Treasure.LOGGER.debug("save well cache dump -> {}", WELL_CACHE.dump());
+//		Treasure.LOGGER.debug("save well cache dump -> {}", WELL_CACHE.dump());
 		return tag;
 	}
 	
