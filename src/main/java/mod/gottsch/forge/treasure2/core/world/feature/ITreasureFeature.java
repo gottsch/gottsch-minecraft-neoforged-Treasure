@@ -61,13 +61,13 @@ public interface ITreasureFeature {
 		TreasureBiomeHelper.Result biomeCheck =TreasureBiomeHelper.isBiomeAllowed(name, whitelist, blacklist);
 		
 		if(biomeCheck == TreasureBiomeHelper.Result.BLACK_LISTED ) {
-			if (WorldInfo.isClientSide(world)) {
-				Treasure.LOGGER.debug("biome {} is not a valid biome at -> {}", name, spawnCoords.toShortString());
-			}
-			else {
-				// TODO test if this crashes with the getRegistryName because in 1.12 this was a client side only
-				Treasure.LOGGER.debug("biome {} is not valid at -> {}", name, spawnCoords.toShortString());
-			}					
+//			if (WorldInfo.isClientSide(world)) {
+//				Treasure.LOGGER.debug("biome {} is not a valid biome at -> {}", name, spawnCoords.toShortString());
+//			}
+//			else {
+//				// TODO test if this crashes with the getRegistryName because in 1.12 this was a client side only
+//				Treasure.LOGGER.debug("biome {} is not valid at -> {}", name, spawnCoords.toShortString());
+//			}
 			return false;
 		}
 		return true;

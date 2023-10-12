@@ -206,6 +206,9 @@ public class TreasureBlocks {
 	public static final RegistryObject<Block> GRAVESTONE3_SPAWNER_OBSIDIAN = Registration.BLOCKS.register("gravestone3_spawner_obsidian", () -> new GravestoneSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE)
 			.strength(3.0F).sound(SoundType.STONE)).setBounds(TreasureShapeBuilder.buildGravestone3()));
 
+	public static final RegistryObject<Block> DEFERRED_RANDOM_VANILLA_SPAWNER = Registration.BLOCKS.register("deferred_random_vanilla_spawner", () -> new DeferredRandomVanillaSpawnerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
+			.strength(3.0F).sound(SoundType.STONE)));
+
 	// falling blocks
 	public static final RegistryObject<Block> FALLING_GRASS = Registration.BLOCKS.register("falling_grass", () -> new FallingGrassBlock(Properties.of().mapColor(MapColor.DIRT)
 			.strength(0.6F).sound(SoundType.GRASS)));
@@ -233,6 +236,7 @@ public class TreasureBlocks {
 	public static final List<RegistryObject<Block>> CHESTS = new ArrayList<>(25);
 	public static final List<RegistryObject<Block>> GRAVESTONES = new ArrayList<>(25);
 	public static final List<RegistryObject<Block>> GRAVESTONE_SPAWNERS = new ArrayList<>(3);
+
 
 	static {
 		CHESTS.add(WOOD_CHEST);

@@ -118,7 +118,12 @@ public class TreasureBlockEntities {
 					TreasureBlocks.GRAVESTONE2_SPAWNER_COBBLESTONE.get(),
 					TreasureBlocks.GRAVESTONE3_SPAWNER_OBSIDIAN.get()
 				).build(null));
-	
+
+	public static final RegistryObject<BlockEntityType<DeferredRandomVanillaSpawnerBlockEntity>> DEFERRED_RANDOM_VANILLA_SPAWNER_ENTITY_TYPE =
+			Registration.BLOCK_ENTITIES.register("deferred_random_vanilla_spawner",
+					() -> BlockEntityType.Builder.of(DeferredRandomVanillaSpawnerBlockEntity::new,
+							TreasureBlocks.DEFERRED_RANDOM_VANILLA_SPAWNER.get())
+							.build(null));
 	public static final RegistryObject<BlockEntityType<MistEmitterBlockEntity>> MIST_EMITTER_BLOCK_ENTITY_TYPE = 
 			Registration.BLOCK_ENTITIES.register("mist_emitter", 
 				() -> BlockEntityType.Builder.of(MistEmitterBlockEntity::new, 
