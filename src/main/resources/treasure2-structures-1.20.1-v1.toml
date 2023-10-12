@@ -115,18 +115,36 @@
 		biomeWhitelist = []
 		biomeBlackList = []
 		[structureConfigs.structMetas.offset]
-		x = 0
-		y = -1
-		z = 0
+			x = 0
+			y = -1
+			z = 0
+
+	[[structureConfigs.structMetas]]
+		name = "treasure2:terranean/ruin/deepslate_tower4"
+		biomeWhitelist = []
+		biomeBlackList = []
+		[structureConfigs.structMetas.offset]
+			x = 0
+			y = -1
+			z = 0
 		
 	[[structureConfigs.structMetas]]
 		name = "treasure2:terranean/ruin/tower5"
 		biomeWhitelist = []
 		biomeBlackList = []
 		[structureConfigs.structMetas.offset]
-		x = 0
-		y = -1
-		z = 0
+			x = 0
+			y = -1
+			z = 0
+
+	[[structureConfigs.structMetas]]
+		name = "treasure2:terranean/ruin/deepslate_tower5"
+		biomeWhitelist = []
+		biomeBlackList = []
+		[structureConfigs.structMetas.offset]
+			x = 0
+			y = -1
+			z = 0
 		
 	##### SUBAQUEOUS #####
 	### RUIN ###
