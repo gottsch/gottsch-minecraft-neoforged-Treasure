@@ -106,8 +106,8 @@ public class TemplateGenerator implements ITemplateGenerator<GeneratorResult<Tem
 		}
 		
 		// update the spawn coords with the offset
-		ICoords spawnCoords = coords.add(offsetCoords);
-//		Treasure.LOGGER.debug("spawn coords with offset -> {}", spawnCoords);
+		ICoords spawnCoords = coords.add(0, offsetCoords.getY(), 0);
+		Treasure.LOGGER.debug("spawn coords with offset -> {}", spawnCoords);
 		
 		// build the replacement map
 		Map<BlockState, BlockState> m = consumerReplacmentMap.get();

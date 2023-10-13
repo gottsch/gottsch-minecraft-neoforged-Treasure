@@ -297,7 +297,7 @@ public class GeneratorUtil {
 			for (int x = 0; x < size.getX(); x++) {
 				for (int z = 0; z < size.getZ(); z++) {
 					ICoords c = coords.add(x, -y, z);
-					Treasure.LOGGER.debug("checking fill block -> {} is air -> {}", c.toShortString(), context.level().getBlockState(c.toPos()).isAir());
+//					Treasure.LOGGER.debug("checking fill block -> {} is air -> {}", c.toShortString(), context.level().getBlockState(c.toPos()).isAir());
 
 					if (context.level().getBlockState(c.toPos()).isAir()) {
 						Treasure.LOGGER.debug("placing fill block -> {}", c.toShortString());

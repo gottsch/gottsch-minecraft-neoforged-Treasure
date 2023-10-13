@@ -58,7 +58,7 @@ public interface ITemplateGenerator<RESULT extends IGeneratorResult<?>> {
 	 * @param placement
 	 * @return
 	 */
-	public static ICoords alignEntranceToCoords(ICoords coords, ICoords entranceCoords, BlockPos size, PlacementSettings placement) {
+	public static ICoords alignEntranceToCoords(ICoords coords, ICoords entranceCoords) {
 //		ICoords startCoords = null;
 		// NOTE this alignment works differently than  surface structure align - that is taking in the SIZE
 		// of the rotated structure. This method takes in an offset coords of the rotated structure

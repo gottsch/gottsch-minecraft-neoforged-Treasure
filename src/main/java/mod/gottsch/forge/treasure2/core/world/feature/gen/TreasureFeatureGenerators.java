@@ -24,10 +24,7 @@ import mod.gottsch.forge.treasure2.core.config.Config;
 import mod.gottsch.forge.treasure2.core.registry.FeatureGeneratorRegistry;
 import mod.gottsch.forge.treasure2.core.util.ModUtil;
 import mod.gottsch.forge.treasure2.core.world.feature.FeatureType;
-import mod.gottsch.forge.treasure2.core.world.feature.gen.selector.AquaticChestFeatureGeneratorSelector;
-import mod.gottsch.forge.treasure2.core.world.feature.gen.selector.IFeatureGeneratorSelector;
-import mod.gottsch.forge.treasure2.core.world.feature.gen.selector.WeightedChestFeatureGeneratorSelector;
-import mod.gottsch.forge.treasure2.core.world.feature.gen.selector.WitherFeatureGeneratorSelector;
+import mod.gottsch.forge.treasure2.core.world.feature.gen.selector.*;
 
 /**
  * 
@@ -41,11 +38,13 @@ public class TreasureFeatureGenerators {
 	public static final IFeatureGenerator PIT_FEATURE_GENERATOR = new PitChestFeatureGenerator();
 	public static final IFeatureGenerator SURFACE_STRUCTURE_FEATURE_GENERATOR = new SurfaceStructureFeatureGenerator();
 	public static final IFeatureGenerator WITHER_FEATURE_GENERATOR = new WitherFeatureGenerator();
+	public static final IFeatureGenerator DEFERRED_WITHER_FEATURE_GENERATOR = new DeferredWitherFeatureGenerator();
+
 	public static final IFeatureGenerator SUBAQUATIC_FEATURE_GENERATOR = new SubaquaticStructureFeatureGenerator();
 	
 	// feature generator selectors
 	public static final IFeatureGeneratorSelector STANDARD_CHEST_FEATURE_GENERATOR_SELECTOR = new WeightedChestFeatureGeneratorSelector();
-	public static final IFeatureGeneratorSelector WITHER_FEATURE_GENERATOR_SELECTOR = new WitherFeatureGeneratorSelector();
+	public static final IFeatureGeneratorSelector WITHER_FEATURE_GENERATOR_SELECTOR = new DeferredWitherFeatureGeneratorSelector();
 	public static final IFeatureGeneratorSelector AQUATIC_CHEST_FEATURE_GENERATOR_SELECTOR = new AquaticChestFeatureGeneratorSelector();
 	
 	static {

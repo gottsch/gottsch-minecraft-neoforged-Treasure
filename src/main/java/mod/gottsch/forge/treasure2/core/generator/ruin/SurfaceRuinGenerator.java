@@ -99,6 +99,19 @@ public class SurfaceRuinGenerator implements IRuinGenerator<GeneratorResult<Ches
 		}
 		Treasure.LOGGER.debug("original spawn coords -> {}", originalSpawnCoords.toShortString());
 
+		// get the offset
+		Optional<StructMeta> meta = Config.getStructMeta(holder.getLocation());
+		ICoords offsetCoords = Coords.EMPTY;
+		if (meta.isPresent()) {
+			offsetCoords = meta.get().getOffset().asCoords();
+		}
+		else {
+			// TEMP dump map
+//			Treasure.LOGGER.debug("dump struct meta map -> {}", Config.structConfigMetaMap);
+			Treasure.LOGGER.debug("... was looking for -> {}", holder.getLocation());
+		}
+		Treasure.LOGGER.debug("using offset coords -> {}", offsetCoords.toShortString());
+
 		// select a random rotation
 		Rotation rotation = Rotation.values()[context.random().nextInt(Rotation.values().length)];
 		Treasure.LOGGER.debug("rotation used -> {}", rotation);
@@ -145,6 +158,13 @@ public class SurfaceRuinGenerator implements IRuinGenerator<GeneratorResult<Ches
 		}
 		// update standardized with the correct y value -> same as aligned
 		standardizedSpawnCoords = standardizedSpawnCoords.withY(alignedSpawnCoords.getY());
+		Treasure.LOGGER.debug("surface (standardized) coords -> {}", standardizedSpawnCoords.toShortString());
+
+		// TODO all this % base checking could be moved to method
+		// if offset coords are set, move to that y for testing solid base
+		if (offsetCoords != Coords.EMPTY) {
+			standardizedSpawnCoords = standardizedSpawnCoords.add(0, offsetCoords.getY(), 0);
+		}
 
 		// check if it has % land base using the standardizedSpawnCoords
 		for (int i = 0; i < 3; i++) {
@@ -164,7 +184,7 @@ public class SurfaceRuinGenerator implements IRuinGenerator<GeneratorResult<Ches
 				break;
 			}
 		}
-		
+
 		Treasure.LOGGER.debug("using solid base coords -> {}", standardizedSpawnCoords.toShortString());
 		
 		// check if the plane above the actual spawn coords is % air
@@ -173,23 +193,16 @@ public class SurfaceRuinGenerator implements IRuinGenerator<GeneratorResult<Ches
 			Treasure.LOGGER.debug("coords -> [{}] does not meet {} % air base requirements for size -> {} x {}", REQUIRED_AIR_SIZE, standardizedSpawnCoords.toShortString(),rotatedSize.getX(), rotatedSize.getZ());
 			return Optional.empty();
 		}
-		
+
+		// move back by the amount of offsetCoords to get in the right position
+		// (because the generate will apply the offset again)
+		if (offsetCoords != Coords.EMPTY) {
+			standardizedSpawnCoords = standardizedSpawnCoords.add(0, -offsetCoords.getY(), 0);
+		}
+
 		/**
 		 * Build
 		 */
-		Optional<StructMeta> meta = Config.getStructMeta(holder.getLocation());
-		ICoords offsetCoords = Coords.EMPTY;
-		if (meta.isPresent()) {
-			offsetCoords = meta.get().getOffset().asCoords();
-		}
-		else {
-			// TEMP dump map
-			Treasure.LOGGER.debug("dump struct meta map -> {}", Config.structConfigMetaMap);
-			Treasure.LOGGER.debug("... was looking for -> {}", holder.getLocation());
-		}
-		Treasure.LOGGER.debug("using offset coords -> {}", offsetCoords.toShortString());
-		Treasure.LOGGER.debug("using spawn coords to generate -> {} with rotationg -> {}", alignedSpawnCoords, rotation);
-		
 		GeneratorResult<TemplateGeneratorData> genResult = generator.generate(context, template, placement, alignedSpawnCoords, offsetCoords);
 		 if (!genResult.isSuccess()) {
 			 return Optional.empty();
@@ -201,7 +214,7 @@ public class SurfaceRuinGenerator implements IRuinGenerator<GeneratorResult<Ches
 		 * NOTE the offset value here uses only what is provided by the meta value,
 		 * it does not check the structure itself for a marker
 		 */
-		GeneratorUtil.fillBelow(context, genResult.getData().getSpawnCoords(), rotatedSize, 3, Blocks.DIRT.defaultBlockState());
+		GeneratorUtil.fillBelow(context, genResult.getData().getSpawnCoords(), rotatedSize, 5, Blocks.DIRT.defaultBlockState());
 
 		// interrogate info for spawners and any other special block processing (except chests that are handler by caller
 		List<BlockInfoContext> bossChestContexts =

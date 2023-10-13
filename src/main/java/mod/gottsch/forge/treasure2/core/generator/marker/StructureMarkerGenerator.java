@@ -83,7 +83,6 @@ public class StructureMarkerGenerator implements IMarkerGenerator<GeneratorResul
 		Treasure.LOGGER.debug("original spawn coords -> {}", coords.toShortString());
 
 		// get the offset
-		int offset = 0;
 		Optional<StructMeta> meta = Config.getStructMeta(holder.getLocation());
 		ICoords offsetCoords = Coords.EMPTY;
 		if (meta.isPresent()) {
@@ -94,7 +93,8 @@ public class StructureMarkerGenerator implements IMarkerGenerator<GeneratorResul
 //			Treasure.LOGGER.debug("dump struct meta map -> {}", Config.structConfigMetaMap);
 			Treasure.LOGGER.debug("... was looking for template meta -> {}", holder.getLocation());
 		}
-		
+		Treasure.LOGGER.debug("using offset coords -> {}", offsetCoords.toShortString());
+
 		// find entrance
 		ICoords entranceCoords =TreasureTemplateRegistry.getOffsetFrom(context.random(), template, StructureMarkers.ENTRANCE);
 		if (entranceCoords == null) {
@@ -119,7 +119,10 @@ public class StructureMarkerGenerator implements IMarkerGenerator<GeneratorResul
 		// NOTE look at StructureTemplate.transform(). minecraft essentially has a 0,0 point and a -0, -0 point
 		// so when rotating a point around a coords, the regular formula (180) of (x,y) -> (x, -y)
 		ICoords newEntrance = new Coords(GottschTemplate.transformedVec3d(placement, entranceCoords.toVec3()));
-
+		// TODO wrap entrance calcu in method as it needs massaging
+		if (entranceCoords.equals(new Coords(0, 0, 0))) {
+			newEntrance = entranceCoords;
+		}
 		Treasure.LOGGER.debug("new entrance coords -> {}", newEntrance);
 
 		/*
@@ -128,7 +131,7 @@ public class StructureMarkerGenerator implements IMarkerGenerator<GeneratorResul
 		BlockPos rotatedSize = template.getSize(rotation);
 		Treasure.LOGGER.debug("rotated size -> {}", rotatedSize.toShortString());
 
-		ICoords spawnCoords = ITemplateGenerator.alignEntranceToCoords(coords, newEntrance, rotatedSize, placement);
+		ICoords spawnCoords = ITemplateGenerator.alignEntranceToCoords(coords, newEntrance);
 		Treasure.LOGGER.debug("aligned spawn coords -> {}", spawnCoords.toShortString());
 
 		ICoords standardizedSpawnCoords = GeneratorUtil.standardizePosition(spawnCoords, rotatedSize, placement);
@@ -147,28 +150,39 @@ public class StructureMarkerGenerator implements IMarkerGenerator<GeneratorResul
 		standardizedSpawnCoords = standardizedSpawnCoords.withY(spawnCoords.getY());
 		Treasure.LOGGER.debug("surface (standardized) coords -> {}", standardizedSpawnCoords.toShortString());
 
-		// if offset is 2 or less, then determine if the solid ground percentage is valid
-		if (offset >= -2) {
-			for (int i = 0; i < 2; i++) {
-				if (!WorldInfo.isSolidBase(context.level(), standardizedSpawnCoords, rotatedSize.getX(), rotatedSize.getZ(), 70)) {
-					if (i == 1) {
-						Treasure.LOGGER.debug("coords -> [{}] does not meet {}% solid base requirements for size -> {} x {}", standardizedSpawnCoords.toShortString(), 70, rotatedSize.getX(), rotatedSize.getY());
-						Optional<GeneratorResult<GeneratorData>> genResult = new GravestoneMarkerGenerator().generate(context, coords);
-						return genResult;
-					} else {
-						standardizedSpawnCoords = standardizedSpawnCoords.add(0, -1, 0);
-						spawnCoords = spawnCoords.add(0, -1, 0);
-						Treasure.LOGGER.debug("move standardized spawn coords down for solid base check -> {}", standardizedSpawnCoords.toShortString());
-					}
+		// TODO all this % base checking could be moved to method
+		// if offset coords are set, move to that y for testing solid base
+		if (offsetCoords != Coords.EMPTY) {
+			standardizedSpawnCoords = standardizedSpawnCoords.add(0, offsetCoords.getY(), 0);
+		}
+
+		for (int i = 0; i < 3; i++) {
+			if (!WorldInfo.isSolidBase(context.level(), standardizedSpawnCoords, rotatedSize.getX(), rotatedSize.getZ(), 70)) {
+				if (i == 1) {
+					Treasure.LOGGER.debug("coords -> [{}] does not meet {}% solid base requirements for size -> {} x {}", standardizedSpawnCoords.toShortString(), 70, rotatedSize.getX(), rotatedSize.getY());
+					Optional<GeneratorResult<GeneratorData>> genResult = new GravestoneMarkerGenerator().generate(context, coords);
+					return genResult;
 				} else {
-					break;
+					standardizedSpawnCoords = standardizedSpawnCoords.add(0, -1, 0);
+					spawnCoords = spawnCoords.add(0, -1, 0);
+					Treasure.LOGGER.debug("move standardized spawn coords down for solid base check -> {}", standardizedSpawnCoords.toShortString());
 				}
+			} else {
+				break;
 			}
+		}
+
+		// move back by the amount of offsetCoords to get in the right position
+		// (because the generate will apply the offset again)
+		if (offsetCoords != Coords.EMPTY) {
+			standardizedSpawnCoords = standardizedSpawnCoords.add(0, -offsetCoords.getY(), 0);
 		}
 
 		Treasure.LOGGER.debug("using solid base coords -> {}", standardizedSpawnCoords.toShortString());
 
-		// generate the structure
+		/**
+		 * Build
+		 */
 		GeneratorResult<TemplateGeneratorData> genResult = new TemplateGenerator().generate(context, template, placement, spawnCoords, offsetCoords);
 		if (!genResult.isSuccess()) {
 			return Optional.empty();
@@ -179,7 +193,7 @@ public class StructureMarkerGenerator implements IMarkerGenerator<GeneratorResul
 		 * NOTE the offset value here uses only what is provided by the meta value,
 		 * it does not check the structure itself for a marker
 		 */
-		GeneratorUtil.fillBelow(context, genResult.getData().getSpawnCoords(), rotatedSize, 3, Blocks.DIRT.defaultBlockState());
+		GeneratorUtil.fillBelow(context, genResult.getData().getSpawnCoords(), rotatedSize, 5, Blocks.DIRT.defaultBlockState());
 
 		// interrogate info for spawners and any other special block processing (except chests that are handler by caller
 		List<BlockInfoContext> spawnerContexts =

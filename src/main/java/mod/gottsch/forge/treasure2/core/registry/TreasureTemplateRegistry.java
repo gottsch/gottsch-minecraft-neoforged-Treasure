@@ -252,7 +252,6 @@ public class TreasureTemplateRegistry {
 	 * @param jarPath
 	 */
 	private static void registerFromJar(Path jarPath) {
-		//		StructureType.getNames().forEach(category -> {
 		List<Path> lootTablePaths;
 		try {
 			// get all the paths in folder

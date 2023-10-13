@@ -138,7 +138,6 @@ public class WitherFeatureGenerator implements IFeatureGenerator {
 			return Optional.empty();
 		}
 		
-		// TODO determine underground coords
 		// determine spawn coords below ground
 		Optional<ICoords> undergroundCoords = getUndergroundSpawnPos(context.level(), context.random(), spawnCoords, config.getMinDepth(), config.getMaxDepth());
 
@@ -146,7 +145,7 @@ public class WitherFeatureGenerator implements IFeatureGenerator {
 			Treasure.LOGGER.debug("unable to spawn underground @ {}", spawnCoords);
 			return Optional.empty();
 		}
-		Treasure.LOGGER.debug("below ground -> {}", spawnCoords.toShortString());
+		Treasure.LOGGER.debug("below ground -> {}", undergroundCoords.get().toShortString());
 		
 		
 		// setup a AABB around the spawn coords
