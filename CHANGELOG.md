@@ -5,13 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.X] - 2023-09-22
+## [3.6.0] - 2023-09-22
 
 ### Changed
 
-- Disabled surface structure generation from CommonSetup.
+- Fixed generation crashes.
+- Fixed structure alignments.
+- Fixed treasure tab name display.
 - Updated SurfaceStructureFeatureGenerator to return an Optional.
+- Updated treasure2-structures-1.20.1 to version 2.
+- 
+### Added
 
+- Blackrock and Deepslate variations of towers.
+- Deferred Random Vanilla Spawner generation classes.
+- Deferred Wither Tree generation classes. 
+- GeometryUtil class.
 
 ## [3.5.0] - 2023-09-05
 
