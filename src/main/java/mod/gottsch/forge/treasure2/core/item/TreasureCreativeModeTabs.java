@@ -39,13 +39,12 @@ import net.minecraftforge.registries.RegistryObject;
  */
 @Mod.EventBusSubscriber(modid = Treasure.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class TreasureCreativeModeTabs {
-//	public static CreativeModeTab MOD_TAB;
-	
+
 	public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Treasure.MODID);
 	
 	public static final RegistryObject<CreativeModeTab> MOD_TAB = TABS.register("treasure_tab", 
 			() -> CreativeModeTab.builder()
-			.title(Component.translatable("itemGoup.treasure2"))
+			.title(Component.translatable("itemGroup.treasure2"))
 			.icon(TreasureItems.LOGO.get()::getDefaultInstance)
 			.displayItems((displayParams, output) -> {
 				// add all items

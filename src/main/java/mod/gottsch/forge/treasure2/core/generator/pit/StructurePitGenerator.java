@@ -1,6 +1,6 @@
 /*
  * This file is part of  Treasure2.
- * Copyright (c) 2021, Mark Gottschling (gottsch)
+ * Copyright (c) 2021 Mark Gottschling (gottsch)
  * 
  * All rights reserved.
  *
@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 import mod.gottsch.forge.treasure2.core.generator.template.ITemplateGenerator;
+import mod.gottsch.forge.treasure2.core.util.GeometryUtil;
 import mod.gottsch.neo.gottschcore.size.DoubleRange;
 import mod.gottsch.neo.gottschcore.size.Quantity;
 import mod.gottsch.neo.gottschcore.spatial.Coords;
@@ -186,9 +187,11 @@ public class StructurePitGenerator extends AbstractPitGenerator implements IStru
 			placement.setRotation(rotation).setRandom(context.random());
 			
 			// NOTE these values are still relative to origin (spawnCoords);
-			ICoords newEntrance = new Coords(GottschTemplate.transformedVec3d(placement, entranceCoords.toVec3()));
+//			ICoords newEntrance = new Coords(GottschTemplate.transformedVec3d(placement, entranceCoords.toVec3()));
+			ICoords newEntrance = GeometryUtil.rotate(entranceCoords, rotation);
 			Treasure.LOGGER.debug("new entrance coords -> {}", newEntrance.toShortString());
-			
+
+
 			/*
 			 *  adjust spawn coords to line up room entrance and the pit
 			 */
@@ -321,20 +324,6 @@ public class StructurePitGenerator extends AbstractPitGenerator implements IStru
 		// NOTE this method is using a offset from the spawnpoint. so the rotation doesn't matter,
 		// it will always be a subtraction from the spawn coords. ie .add(-c) or .subtract(c)
 		startCoords = spawnCoords.add(-offsetCoords.getX(), 0, -offsetCoords.getZ());
-		
-		// make adjustments for the rotation. REMEMBER that pits are 2x2
-//		return switch (placement.getRotation()) {
-//		case CLOCKWISE_90:
-//			startCoords = startCoords.add(1, 0, 0);
-//			break;
-//		case CLOCKWISE_180 ->
-//			startCoords = startCoords.add(1, 0, 1);
-//
-//		case COUNTERCLOCKWISE_90 ->
-//			startCoords = startCoords.add(0, 0, 1);
-//
-//		default -> startCoords;
-//		}
 		return startCoords;
 	}
 	
