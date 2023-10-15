@@ -10,5 +10,5 @@
   "minecraft:old_growth_birch_forest", "minecraft:sparse_jungle", "minecraft:bamboo_jungle", "minecraft:eroded_badlands", 
   "minecraft:windswept_savanna", "minecraft:frozen_peaks" ],
   "features" : "treasure2:terranean_chest_placed",
-  "step" : "top_layer_modification"
+  "step" : "surface_structures"
 }
