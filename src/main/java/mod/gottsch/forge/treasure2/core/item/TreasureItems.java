@@ -713,7 +713,7 @@ public class TreasureItems {
 					return false;
 				}
 			});
-	
+
 	static {
 		// register all the chests
 		TreasureBlocks.CHESTS.forEach(g -> {
