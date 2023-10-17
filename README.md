@@ -1,43 +1,18 @@
+[![](https://img.shields.io/discord/596352475204943873.svg?style=for-the-badge&logo=discord)](https://discord.gg/CpWXamx)
+[![](https://img.shields.io/github/issues/gottsch/gottsch-minecraft-Treasure.svg?style=for-the-badge&logo=github)](https://github.com/gottsch/gottsch-minecraft-Treasure/issues)
+[![](https://img.shields.io/github/issues/gottsch/gottsch-minecraft-Treasure/enhancement.svg?style=for-the-badge&logo=github)](https://github.com/gottsch/gottsch-minecraft-Treasure/issues)
+[![](https://img.shields.io/github/issues/gottsch/gottsch-minecraft-Treasure/content%20add.svg?style=for-the-badge&logo=github)](https://github.com/gottsch/gottsch-minecraft-Treasure/issues)[![](https://img.shields.io/github/issues/gottsch/gottsch-minecraft-Treasure/bug.svg?style=for-the-badge&logo=github)](https://github.com/gottsch/gottsch-minecraft-Treasure/issues)</br>
 
-Installation information
-=======
+# Treasure2! 
 
-This template repository can be directly cloned to get you started with a new
-mod. Simply create a new repository cloned from this one, by following the
-instructions at [github](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+![](./Treasure2-1.12.2/src/resources/treasure2-github-logo.png)
 
-Once you have your clone, you can initialize your copy.
 
-Setup Process:
---------
+<p align="center">  
+  Who doesn't like finding <b>loot</b>?  It is always fun to find <b>free stuff</b>!
+</p>
 
-Step 1: Open your command-line and browse to the folder where you extracted cloned your copy of this repository to.
+<b>Treasure2!</b> adds to the thrill of discovery in Minecraft. This mod adds various new and rare <b>chests of treasure</b> to be discovered. The chests are secured by a various assortment of <b>locks</b> and can only be unlocked by finding the corresponding <b>keys</b>.
 
-Step 2: You're left with a choice.
-If you prefer to use Eclipse:
-1. Run the following command: `gradlew genEclipseRuns` (`./gradlew genEclipseRuns` if you are on Mac/Linux)
-2. Open Eclipse, Import > Existing Gradle Project > Select Folder 
-   or run `gradlew eclipse` to generate the project.
-
-If you prefer to use IntelliJ:
-1. Open IDEA, and import project.
-2. Select your build.gradle file and have it import.
-3. Run the following command: `gradlew genIntellijRuns` (`./gradlew genIntellijRuns` if you are on Mac/Linux)
-4. Refresh the Gradle Project in IDEA if required.
-
-If at any point you are missing libraries in your IDE, or you've run into problems you can 
-run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean` to reset everything 
-{this does not affect your code} and then start the process again.
-
-Mapping Names:
-============
-By default, the MDK is configured to use the official mapping names from Mojang for methods and fields 
-in the Minecraft codebase. These names are covered by a specific license. All modders should be aware of this
-license, if you do not agree with it you can change your mapping names to other crowdsourced names in your 
-build.gradle. For the latest license text, refer to the mapping file itself, or the reference copy here:
-https://github.com/NeoForged/NeoForm/blob/main/Mojang.md
-
-Additional Resources: 
-==========
-Community Documentation: https://docs.neoforged.net/  
-NeoForged Discord: https://discord.neoforged.net/
+## Key and Locks
+Hold the **Shift** key while using a key or a lock on a chest in order to use it.
