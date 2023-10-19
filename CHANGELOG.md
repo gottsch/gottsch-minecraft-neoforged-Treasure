@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Fixed crash when removing item from crafting table (anything requiring the Treasure Tool.)
-- Data generated all items / blocks.
+- Data generated all recipes.
 
 ## [3.6.0] - 2023-10-16
 
