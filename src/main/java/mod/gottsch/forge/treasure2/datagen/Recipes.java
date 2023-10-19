@@ -19,17 +19,15 @@ package mod.gottsch.forge.treasure2.datagen;
 
 import java.util.function.Consumer;
 
+import mod.gottsch.forge.treasure2.core.block.TreasureBlocks;
 import mod.gottsch.forge.treasure2.core.item.TreasureItems;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+import net.minecraft.data.recipes.*;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
 
 /**
  * 
@@ -148,7 +146,7 @@ public class Recipes extends RecipeProvider {
 	        .unlockedBy("has_tool", InventoryChangeTrigger.TriggerInstance.hasItems(TreasureItems.TREASURE_TOOL.get()))
 	        .save(recipe);
 	        
-	        // sapphire
+	        // sapphire key
 	        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, TreasureItems.SAPPHIRE_KEY.get())
 	        .pattern("kt ")
 	        .pattern(" d ")
@@ -159,6 +157,24 @@ public class Recipes extends RecipeProvider {
 	        .define('s', TreasureItems.SAPPHIRE.get())
 	        .unlockedBy("has_tool", InventoryChangeTrigger.TriggerInstance.hasItems(TreasureItems.TREASURE_TOOL.get()))
 	        .save(recipe);
+
+			// wither key
+			ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, TreasureItems.WITHER_KEY.get())
+					.pattern(" bt")
+					.pattern(" b ")
+					.pattern(" br")
+					.define('t', TreasureItems.TREASURE_TOOL.get())
+					.define('b', TreasureItems.WITHER_STICK_ITEM.get())
+					.define('r', TreasureItems.WITHER_ROOT_ITEM.get())
+					.unlockedBy("has_tool", InventoryChangeTrigger.TriggerInstance.hasItems(TreasureItems.TREASURE_TOOL.get()))
+					.save(recipe);
+
+			// skull chest
+			ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, TreasureBlocks.SKULL_CHEST.get())
+					.requires(TreasureItems.TREASURE_TOOL.get())
+					.requires(Items.SKELETON_SKULL)
+					.unlockedBy("has_tool", InventoryChangeTrigger.TriggerInstance.hasItems(TreasureItems.TREASURE_TOOL.get()))
+					.save(recipe);
 
 	        // copper weapons smelting
 			SimpleCookingRecipeBuilder.smelting(Ingredient.of(TreasureItems.CHIPPED_COPPER_SHORT_SWORD.get()), RecipeCategory.COMBAT, 
